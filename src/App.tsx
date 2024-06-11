@@ -1,4 +1,4 @@
-import { Button } from "@radix-ui/themes";
+import { Button, Flex } from "@radix-ui/themes";
 import GameBoard from "./components/GameBoard";
 import SetupScreen from "./components/SetupScreen";
 import { RIDERS_LIMIT } from "./config";
@@ -16,9 +16,11 @@ function App() {
       {!gameData.isPending && <SetupScreen />}
 
       {ridersData.length >= RIDERS_LIMIT && !gameData.isPending && (
-        <Button variant="classic" color="tomato" size="3" onClick={startGame}>
-          I'm READY!
-        </Button>
+        <Flex justify="center" mt="2">
+          <Button variant="classic" color="tomato" size="3" onClick={startGame}>
+            I'm READY!
+          </Button>
+        </Flex>
       )}
 
       {gameData.isPending && <GameBoard />}

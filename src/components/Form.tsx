@@ -3,7 +3,7 @@ import { useRiderCardsContext } from "../lib/hooks";
 import { Rider, RiderType } from "../lib/types";
 import { v4 as uuidv4 } from "uuid";
 import { RIDERS_LIMIT } from "../config";
-import { Button } from "@radix-ui/themes";
+import { Button, Flex } from "@radix-ui/themes";
 
 export default function Form() {
   const { setRidersData, ridersData } = useRiderCardsContext();
@@ -36,7 +36,7 @@ export default function Form() {
   };
 
   return (
-    <div>
+    <Flex justify="center" gapX="2">
       <Button
         variant="classic"
         onClick={() => addRider("rouler")}
@@ -47,6 +47,6 @@ export default function Form() {
       <Button onClick={() => addRider("sprinter")} disabled={isDisabled}>
         Add new Sprinter
       </Button>
-    </div>
+    </Flex>
   );
 }

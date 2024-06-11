@@ -11,6 +11,7 @@ export default function GameBoard() {
     drawCards,
     getCurrentHand,
     hasCardsInHand,
+    selectCard,
   } = useRiderCardsContext();
 
   return (
@@ -33,8 +34,14 @@ export default function GameBoard() {
               )}
 
               <Flex gapX="2">
-                {getCurrentHand(rider.id).map((num) => (
-                  <Button variant="soft">{num}</Button>
+                {getCurrentHand(rider.id).map((num, index) => (
+                  <Button
+                    variant="soft"
+                    key={index}
+                    onClick={() => selectCard(rider.id, num)}
+                  >
+                    {num}
+                  </Button>
                 ))}
               </Flex>
             </Accordion.Content>
