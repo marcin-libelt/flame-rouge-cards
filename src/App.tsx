@@ -16,8 +16,8 @@ function App() {
       {!gameData.isPending && <SetupScreen />}
 
       {ridersData.length >= RIDERS_LIMIT && !gameData.isPending && (
-        <Button variant="classic" onClick={startGame}>
-          Edit profile
+        <Button variant="classic" color="tomato" size="3" onClick={startGame}>
+          I'm READY!
         </Button>
       )}
 
