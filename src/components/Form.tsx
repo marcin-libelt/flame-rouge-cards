@@ -2,12 +2,12 @@ import { charactersDataObj } from "../config";
 import { useRiderCardsContext } from "../lib/hooks";
 import { Rider, RiderType } from "../lib/types";
 import { v4 as uuidv4 } from "uuid";
-
-const LIMIT = 2;
+import { RIDERS_LIMIT } from "../config";
+import { Button } from "@radix-ui/themes";
 
 export default function Form() {
   const { setRidersData, ridersData } = useRiderCardsContext();
-  const isDisabled = ridersData.length >= LIMIT;
+  const isDisabled = ridersData.length >= RIDERS_LIMIT;
 
   const addRider = async (type: RiderType): Promise<void> => {
     let name = "----- ------";
@@ -37,12 +37,16 @@ export default function Form() {
 
   return (
     <div>
-      <button onClick={() => addRider("rouler")} disabled={isDisabled}>
+      <Button
+        variant="classic"
+        onClick={() => addRider("rouler")}
+        disabled={isDisabled}
+      >
         Add new Rouler
-      </button>
-      <button onClick={() => addRider("sprinter")} disabled={isDisabled}>
+      </Button>
+      <Button onClick={() => addRider("sprinter")} disabled={isDisabled}>
         Add new Sprinter
-      </button>
+      </Button>
     </div>
   );
 }

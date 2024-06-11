@@ -14,3 +14,4 @@ export const charactersDataObj = [
 ];
 
 export const exhaustionCardValue = 2;
+export const RIDERS_LIMIT = 1;

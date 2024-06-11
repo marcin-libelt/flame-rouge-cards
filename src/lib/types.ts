@@ -18,4 +18,5 @@ export type Game = {
   selectedCardsState: string[];
   locked: string[];
   cardsAreReaviled: boolean;
+  isPending: boolean;
 };

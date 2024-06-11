@@ -42,6 +42,7 @@ export default function RiderCardsContextProvider({
     selectedCardsState: [],
     locked: [],
     cardsAreReaviled: false,
+    isPending: false,
   });
   const [ridersData, setRidersData] = useState<Rider[]>([]);
 
