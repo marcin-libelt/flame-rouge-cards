@@ -1,6 +1,6 @@
 import React, { createContext, useState, useCallback } from "react";
 import { shuffle } from "../lib/utils";
-import { exhaustionCardValue } from "../config";
+import { exhaustionCardValue } from "../lib/config";
 import { Rider, RiderId, Game } from "../lib/types";
 
 type RiderCardsProviderProps = { children: React.ReactNode };
@@ -105,12 +105,15 @@ export default function RiderCardsContextProvider({
 
   // zmienic nazwe - bo za duzo sie tu dzieje
   const selectCard = (riderId: RiderId, card: number) => {
-    const newRidersData = [...ridersData],
-      currentGameData = { ...gameData },
-      currentRider = newRidersData[getIndexOfArrayState(riderId)],
-      cardIndex = currentRider.hand.findIndex((c) => c === card),
-      selectedCard = currentRider.hand.splice(cardIndex, 1),
-      newStash = currentRider.stash.concat(currentRider.hand.splice(0));
+    const newRidersData = [...ridersData];
+    const currentGameData = { ...gameData };
+
+    const currentRider = newRidersData[getIndexOfArrayState(riderId)];
+
+    const cardIndex = currentRider.hand.findIndex((c) => c === card);
+
+    const selectedCard = currentRider.hand.splice(cardIndex, 1);
+    const newStash = currentRider.stash.concat(currentRider.hand.splice(0));
 
     currentRider.stash = newStash;
     currentRider.selected = selectedCard;

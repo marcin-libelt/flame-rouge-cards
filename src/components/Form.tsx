@@ -1,9 +1,10 @@
-import { charactersDataObj } from "../config";
+import { charactersDataObj } from "../lib/config";
 import { useRiderCardsContext } from "../lib/hooks";
 import { Rider, RiderType } from "../lib/types";
 import { v4 as uuidv4 } from "uuid";
-import { RIDERS_LIMIT } from "../config";
+import { RIDERS_LIMIT } from "../lib/config";
 import { Button, Flex } from "@radix-ui/themes";
+import { shuffle } from "../lib/utils";
 
 export default function Form() {
   const { setRidersData, ridersData } = useRiderCardsContext();
@@ -26,7 +27,7 @@ export default function Form() {
       name: name,
       type: type,
       label: data?.label || "",
-      deck: [...(data?.deck || [])],
+      deck: shuffle([...(data?.deck || [])]),
       hand: [],
       stash: [],
       selected: [],

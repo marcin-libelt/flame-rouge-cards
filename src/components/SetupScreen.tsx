@@ -1,12 +1,13 @@
 import List from "./List";
 import Form from "./Form";
+import { Heading } from "@radix-ui/themes";
 
 export default function SetupScreen() {
   return (
     <>
-      <h2>List</h2>
+      <Heading as="h2">List</Heading>
       <List />
-      <h2>Form</h2>
+      <Heading as="h2">Form</Heading>
       <Form />
     </>
   );

@@ -1,7 +1,6 @@
 import { Button, Flex } from "@radix-ui/themes";
 import GameBoard from "./components/GameBoard";
 import SetupScreen from "./components/SetupScreen";
-import { RIDERS_LIMIT } from "./config";
 import { useRiderCardsContext } from "./lib/hooks";
 
 function App() {
@@ -15,7 +14,7 @@ function App() {
     <>
       {!gameData.isPending && <SetupScreen />}
 
-      {ridersData.length >= RIDERS_LIMIT && !gameData.isPending && (
+      {ridersData.length > 0 && !gameData.isPending && (
         <Flex justify="center" mt="2">
           <Button variant="classic" color="tomato" size="3" onClick={startGame}>
             I'm READY!
