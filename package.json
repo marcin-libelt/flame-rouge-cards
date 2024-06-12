@@ -1,8 +1,12 @@
 {
   "name": "flame-rouge-cards",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "0.1.0",
   "type": "module",
+  "author": {
+    "name": "Marcin Libelt",
+    "email": "marcin.libelt@gmail.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
