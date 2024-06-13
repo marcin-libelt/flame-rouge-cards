@@ -6,6 +6,7 @@ export type Rider = {
   id: RiderId;
   name: string;
   type: RiderType;
+  color: string;
   label: string;
   deck: number[];
   hand: number[];

@@ -9,6 +9,7 @@ import RiderCardsPanel from "./RiderCardsPanel";
 import RiderHeaderPanel from "./RiderHeaderPanel";
 import classes from "./RiderPanel.module.less";
 import { useRiderCardsContext } from "../lib/hooks";
+import Stats from "./Stats";
 
 type RiderPanelProps = {
   rider: Rider & BoardRider;
@@ -26,13 +27,14 @@ export default function RiderPanel({
   const isReady = hasSeletedCard(rider.id);
   const isAllow = rider.allow;
 
-  let boxClass = isAllow ? "card-default" : "card-locked";
-  boxClass = "";
+  const boxClass = isAllow ? "card-default" : "card-locked";
 
   return (
     <Box>
       <Card className={classes[boxClass]}>
-        <RiderHeaderPanel rider={rider} isAllow={isAllow} isReady={isReady} />
+        <RiderHeaderPanel rider={rider} isAllow={isAllow} isReady={isReady}>
+          <Stats rider={rider} />
+        </RiderHeaderPanel>
         <RiderCardsPanel
           rider={rider}
           isAllow={isAllow}
