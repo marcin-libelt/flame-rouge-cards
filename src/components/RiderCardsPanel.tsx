@@ -8,17 +8,19 @@ import {
   Rider,
 } from "../lib/types";
 
+type RiderCardsPanelProps = {
+  rider: Rider;
+  isAllow: boolean;
+  handleDrawCards: HandleDrawCardsProps;
+  handleSelectCard: HandleSelectCardProps;
+};
+
 export default function RiderCardsPanel({
   rider,
   isAllow,
   handleDrawCards,
   handleSelectCard,
-}: {
-  rider: Rider;
-  isAllow: boolean;
-  handleDrawCards: HandleDrawCardsProps;
-  handleSelectCard: HandleSelectCardProps;
-}) {
+}: RiderCardsPanelProps) {
   const {
     hasCardsInHand,
     hasSeletedCard,

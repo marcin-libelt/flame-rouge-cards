@@ -7,13 +7,15 @@ import { Flex, Text } from "@radix-ui/themes";
 import { Rider } from "../lib/types";
 import { useRiderCardsContext } from "../lib/hooks";
 
+type RiderHeaderPanelProps = {
+  rider: Rider;
+  isAllow: boolean;
+};
+
 export default function RiderHeaderPanel({
   rider,
   isAllow,
-}: {
-  rider: Rider;
-  isAllow: boolean;
-}) {
+}: RiderHeaderPanelProps) {
   const { hasSeletedCard } = useRiderCardsContext();
 
   const id = rider.id;
