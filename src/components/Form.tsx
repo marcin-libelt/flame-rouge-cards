@@ -31,6 +31,7 @@ export default function Form() {
       hand: [],
       stash: [],
       selected: [],
+      penalty: 0,
     };
 
     setRidersData([...ridersData, newPlayer]);

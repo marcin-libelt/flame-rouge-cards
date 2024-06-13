@@ -1,21 +1,14 @@
-import { Box, Button, Flex, Separator, Text } from "@radix-ui/themes";
+import { Box, Button, Separator } from "@radix-ui/themes";
 import { useRiderCardsContext } from "../lib/hooks";
-import { Rider, RiderId } from "../lib/types";
-import classes from "./gameboard.module.less";
 import {
-  CheckCircledIcon,
-  CrossCircledIcon,
-  QuestionMarkCircledIcon,
-} from "@radix-ui/react-icons";
-import { useState } from "react";
+  BoardRider,
+  HandleDrawCardsProps,
+  HandleSelectCardProps,
+} from "../lib/types";
+//import classes from "./Gameboard.module.less";
 
-type HandleSelectCardProps = (riderId: RiderId, num: number) => void;
-type HandleDrawCardsProps = (riderId: RiderId) => void;
-type BoardRider = {
-  riderId: RiderId;
-  allow: boolean;
-  completed: boolean;
-};
+import { useState } from "react";
+import RiderPanel from "./RiderPanale";
 
 export default function GameBoard() {
   const {
@@ -54,7 +47,6 @@ export default function GameBoard() {
         return r;
       }
     });
-
     setBoardRiders(notAllowed);
     drawCards(riderId);
   };
@@ -68,7 +60,7 @@ export default function GameBoard() {
           ) as BoardRider;
           return (
             <RiderPanel
-              key={rider.id}
+              key={`${rider.penalty}-${rider.id}`}
               rider={{ ...rider, ...br }}
               handleDrawCards={handleDrawCards}
               handleSelectCard={handleSelectCard}
@@ -86,65 +78,5 @@ export default function GameBoard() {
         )}
       </Box>
     </div>
-  );
-}
-
-function RiderPanel({
-  rider,
-  handleDrawCards,
-  handleSelectCard,
-}: {
-  rider: Rider & BoardRider;
-  handleDrawCards: HandleDrawCardsProps;
-  handleSelectCard: HandleSelectCardProps;
-}) {
-  const { getCurrentHand, hasCardsInHand, hasSeletedCard, areCardsReaviled } =
-    useRiderCardsContext();
-
-  const isAllow = rider.allow;
-  const id = rider.id;
-  const reaviled = areCardsReaviled();
-
-  return (
-    <Box>
-      <Flex justify="between">
-        <Text size="2">{`${rider.name}`}</Text>
-
-        {hasSeletedCard(id) && (
-          <CheckCircledIcon height={30} width={30} color="green" />
-        )}
-        {isAllow && !hasSeletedCard(id) && (
-          <QuestionMarkCircledIcon height={30} width={30} />
-        )}
-        {!isAllow && !hasSeletedCard(id) && (
-          <CrossCircledIcon height={30} width={30} color="orange" />
-        )}
-      </Flex>
-
-      <Flex>
-        {!hasCardsInHand(id) && !hasSeletedCard(id) && (
-          <Button onClick={() => handleDrawCards(id)} disabled={!isAllow}>
-            Draw Cards
-          </Button>
-        )}
-        <Flex gapX="2">
-          {getCurrentHand(id).map((num, index) => (
-            <Button
-              variant="soft"
-              key={index}
-              onClick={() => handleSelectCard(id, num)}
-            >
-              {num}
-            </Button>
-          ))}
-        </Flex>
-      </Flex>
-
-      {rider.selected.length > 0 && (
-        <Button variant="soft" size={reaviled ? "4" : "2"}>
-          {reaviled ? rider.selected : ":)"}
-        </Button>
-      )}
-    </Box>
   );
 }

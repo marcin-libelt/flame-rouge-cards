@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback } from "react";
+import React, { createContext, useState } from "react";
 import { shuffle } from "../lib/utils";
 import { exhaustionCardValue } from "../lib/config";
 import { Rider, RiderId, Game } from "../lib/types";
@@ -75,17 +75,15 @@ export default function RiderCardsContextProvider({
   const getCurrentHand = (riderId: RiderId): number[] =>
     ridersData[getIndexOfArrayState(riderId)].hand;
 
-  const addExhaustionCard = useCallback(
-    (riderId: RiderId) => {
-      const newRidersData = [...ridersData],
-        currentRider = newRidersData[getIndexOfArrayState(riderId)];
+  const addExhaustionCard = (riderId: RiderId) => {
+    const newRidersData = [...ridersData],
+      currentRider = newRidersData[getIndexOfArrayState(riderId)];
 
-      currentRider.stash.push(exhaustionCardValue);
+    currentRider.stash.push(exhaustionCardValue);
+    currentRider.penalty += 1;
 
-      setRidersData(newRidersData);
-    },
-    ["riderId"]
-  );
+    setRidersData(newRidersData);
+  };
 
   const startNewRound = () => {
     const newGameData = { ...gameData };
@@ -191,6 +189,3 @@ export default function RiderCardsContextProvider({
     </RiderCardsContext.Provider>
   );
 }
-
-//export const RiderCardsContext = () => useContext(RiderCards);
-//export default RiderCardsContextProvider;

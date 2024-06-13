@@ -11,6 +11,7 @@ export type Rider = {
   hand: number[];
   stash: number[];
   selected: number[];
+  penalty: number;
 };
 
 export type Game = {
@@ -20,3 +21,12 @@ export type Game = {
   cardsAreReaviled: boolean;
   isPending: boolean;
 };
+
+export type BoardRider = {
+  riderId: RiderId;
+  allow: boolean;
+  completed: boolean;
+};
+
+export type HandleSelectCardProps = (riderId: RiderId, num: number) => void;
+export type HandleDrawCardsProps = (riderId: RiderId) => void;
