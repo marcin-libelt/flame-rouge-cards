@@ -3,17 +3,15 @@ import { Button, Box } from "@radix-ui/themes";
 type PlayerCard = {
   isReaviled?: boolean;
   onClick?: () => void;
-  variant?: "penalty" | "default";
+  color?: "green" | "red" | undefined;
   children: React.ReactNode;
 };
 export default function PlayerCard({
   isReaviled = false,
   onClick = () => {},
-  variant = undefined,
+  color = undefined,
   children,
 }: PlayerCard) {
-  const color = variant === "penalty" ? "red" : undefined;
-
   return (
     <Button
       color={color}
