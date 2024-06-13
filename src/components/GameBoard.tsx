@@ -9,6 +9,7 @@ import {
 
 import { useState } from "react";
 import RiderPanel from "./RiderPanel";
+import { EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
 
 export default function GameBoard() {
   const {
@@ -75,15 +76,33 @@ export default function GameBoard() {
         })}
       </Flex>
       <Separator my="4" size="4" />
-      <Box>
-        {!areCardsReaviled() && isLastStep() && (
-          <Button onClick={revealAllCards}>Reveal cards</Button>
-        )}
-        {areCardsReaviled() && (
-          <Button onClick={handleStartNewRound}>Start new round</Button>
-        )}
+      <Flex justify={"between"} align={"center"}>
+        <Box>
+          {!areCardsReaviled() && isLastStep() && (
+            <Button onClick={revealAllCards} color="green">
+              <EyeOpenIcon />
+              Reveal cards
+            </Button>
+          )}
+          {areCardsReaviled() && (
+            <Button onClick={handleStartNewRound}>
+              <ReloadIcon />
+              Start new round
+            </Button>
+          )}
+        </Box>
+        <Text size="1">{`Current round: ${currentRound}`}</Text>
+      </Flex>
+      <Box mt="8">
+        <Button
+          variant="ghost"
+          onClick={() => {
+            confirm("Are you sure?") && window.location.reload();
+          }}
+        >
+          Restart game
+        </Button>
       </Box>
-      <Text size="1">{`Current round: ${currentRound}`}</Text>
     </div>
   );
 }
