@@ -1,4 +1,4 @@
-import { Box, Button, Separator, Text } from "@radix-ui/themes";
+import { Box, Button, Flex, Separator, Text } from "@radix-ui/themes";
 import { useRiderCardsContext } from "../lib/hooks";
 import {
   BoardRider,
@@ -8,7 +8,7 @@ import {
 //import classes from "./Gameboard.module.less";
 
 import { useState } from "react";
-import RiderPanel from "./RiderPanale";
+import RiderPanel from "./RiderPanel";
 
 export default function GameBoard() {
   const {
@@ -28,7 +28,7 @@ export default function GameBoard() {
   }));
 
   const [boardRiders, setBoardRiders] = useState<BoardRider[]>(initialState);
-  const [currentRound, setCurrentRound] = useState(0);
+  const [currentRound, setCurrentRound] = useState(1);
 
   const handleSelectCard: HandleSelectCardProps = (riderId, num) => {
     // allow for all other
@@ -59,7 +59,7 @@ export default function GameBoard() {
 
   return (
     <div>
-      <div>
+      <Flex gap="2" direction="column">
         {ridersData.map((rider) => {
           const br = boardRiders.find(
             (b) => b.riderId === rider.id
@@ -73,7 +73,7 @@ export default function GameBoard() {
             />
           );
         })}
-      </div>
+      </Flex>
       <Separator my="4" size="4" />
       <Box>
         {!areCardsReaviled() && isLastStep() && (
