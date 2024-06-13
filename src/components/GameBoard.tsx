@@ -1,4 +1,4 @@
-import { Box, Button, Separator } from "@radix-ui/themes";
+import { Box, Button, Separator, Text } from "@radix-ui/themes";
 import { useRiderCardsContext } from "../lib/hooks";
 import {
   BoardRider,
@@ -28,6 +28,7 @@ export default function GameBoard() {
   }));
 
   const [boardRiders, setBoardRiders] = useState<BoardRider[]>(initialState);
+  const [currentRound, setCurrentRound] = useState(0);
 
   const handleSelectCard: HandleSelectCardProps = (riderId, num) => {
     // allow for all other
@@ -51,6 +52,11 @@ export default function GameBoard() {
     drawCards(riderId);
   };
 
+  const handleStartNewRound = () => {
+    setCurrentRound(currentRound + 1);
+    startNewRound();
+  };
+
   return (
     <div>
       <div>
@@ -60,7 +66,7 @@ export default function GameBoard() {
           ) as BoardRider;
           return (
             <RiderPanel
-              key={`${rider.penalty}-${rider.id}`}
+              key={`${currentRound}-${rider.id}`}
               rider={{ ...rider, ...br }}
               handleDrawCards={handleDrawCards}
               handleSelectCard={handleSelectCard}
@@ -74,9 +80,10 @@ export default function GameBoard() {
           <Button onClick={revealAllCards}>Reveal cards</Button>
         )}
         {areCardsReaviled() && (
-          <Button onClick={startNewRound}>Start new round</Button>
+          <Button onClick={handleStartNewRound}>Start new round</Button>
         )}
       </Box>
+      <Text size="1">{`Current round: ${currentRound}`}</Text>
     </div>
   );
 }

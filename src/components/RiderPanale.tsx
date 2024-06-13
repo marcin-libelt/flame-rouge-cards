@@ -87,7 +87,7 @@ export default function RiderPanel({
             </PlayerCard>
             {Array(penaltyLength)
               .fill(undefined)
-              .map((c, index) => (
+              .map((_, index) => (
                 <span key={index}>.</span>
               ))}
           </Flex>
