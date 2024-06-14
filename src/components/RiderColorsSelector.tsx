@@ -1,25 +1,26 @@
-import { Flex } from "@radix-ui/themes";
 import { riderColors } from "../lib/config";
 import { CheckIcon } from "@radix-ui/react-icons";
 import classes from "./RiderColorsSelector.module.less";
+import { RiderColor } from "../lib/types";
 
+type RiderColorsSelector = {
+  selection: string[];
+  onColorSelect: (color: string) => void;
+};
 export default function RiderColorsSelector({
-  selected,
-  setColor,
-}: {
-  selected: string;
-  setColor: (color: string) => void;
-}) {
+  selection,
+  onColorSelect,
+}: RiderColorsSelector) {
   return (
-    <Flex mb="4" gap="2">
-      {riderColors.map(({ name, value }: { name: string; value: string }) => (
+    <>
+      {riderColors.map(({ name, value }: RiderColor) => (
         <button
           key={name}
           style={{ backgroundColor: value }}
-          onClick={() => setColor(value)}
+          onClick={() => onColorSelect(value)}
           className={classes.item}
         >
-          {selected === value && (
+          {selection.includes(value) && (
             <CheckIcon
               width="25"
               height="25"
@@ -28,6 +29,6 @@ export default function RiderColorsSelector({
           )}
         </button>
       ))}
-    </Flex>
+    </>
   );
 }

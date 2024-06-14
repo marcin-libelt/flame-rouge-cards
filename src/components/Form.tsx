@@ -2,26 +2,78 @@ import { charactersDataObj } from "../lib/config";
 import { useRiderCardsContext } from "../lib/hooks";
 import { Rider, RiderType } from "../lib/types";
 import { v4 as uuidv4 } from "uuid";
-import { RIDERS_LIMIT } from "../lib/config";
 import {
+  Card,
+  Heading,
+  Text,
+  Grid,
+  Separator,
   Box,
   Button,
-  Card,
   Flex,
-  Heading,
-  TextField,
-  Text,
+  Switch,
 } from "@radix-ui/themes";
 import { shuffle } from "../lib/utils";
 import { useState } from "react";
-import RiderColorsSelector from "./RiderColorsSelector";
 import classes from "./Form.module.less";
+import RiderSelection from "./RiderSelection";
+import { RocketIcon } from "@radix-ui/react-icons";
+
+// todo rename that interface name
+interface ObjectLiteral {
+  [key: string]: string[];
+}
+
+const generateInitialValue = () => {
+  const result: ObjectLiteral = {};
+  for (const riderCfg of charactersDataObj) {
+    result[riderCfg.code] = [];
+  }
+  return result;
+};
+const initialValue = generateInitialValue();
 
 export default function Form() {
   const { setRidersData, ridersData } = useRiderCardsContext();
-  const [name, setName] = useState("");
-  const [color, setColor] = useState("");
-  const isDisabled = ridersData.length >= RIDERS_LIMIT;
+  const [pairSelecting, setPairSelecting] = useState(true);
+  const [ridersEnroll, setRidersEnroll] = useState(initialValue);
+
+  const ifSomeEnrolled = () => {
+    return Object.keys(ridersEnroll).reduce(
+      (accu, curr) => accu + ridersEnroll[curr].length,
+      0
+    );
+  };
+  const isDisabled = !ifSomeEnrolled();
+
+  const handleColorSelect = (color: string, type: RiderType) => {
+    if (pairSelecting) {
+      const keys = Object.keys(ridersEnroll);
+      const newEnroll: ObjectLiteral = {};
+      // check first item only
+      if (ridersEnroll[keys[0]].includes(color)) {
+        for (const d of keys) {
+          const filtered = ridersEnroll[d].filter((col) => col !== color);
+          newEnroll[d] = filtered;
+        }
+      } else {
+        for (const d of keys) {
+          newEnroll[d] = [...ridersEnroll[d], color];
+        }
+      }
+      setRidersEnroll(newEnroll);
+    } else {
+      if (ridersEnroll[type].includes(color)) {
+        const filtered = ridersEnroll[type].filter((col) => col !== color);
+        setRidersEnroll({ ...ridersEnroll, [type]: filtered });
+      } else {
+        setRidersEnroll({
+          ...ridersEnroll,
+          [type]: [...ridersEnroll[type], color],
+        });
+      }
+    }
+  };
 
   const addRider = async (type: RiderType): Promise<void> => {
     if (!color) {
@@ -54,8 +106,6 @@ export default function Form() {
       };
 
       setRidersData([...ridersData, newPlayer]);
-      setName("");
-      setColor("");
     }
   };
 
@@ -64,55 +114,51 @@ export default function Form() {
       <Heading as="h3" mb="4">
         Registration is open
       </Heading>
-
-      <Card>
-        <Heading as="h3" size="3" mb="2">
+      <Card mb="5">
+        <Heading as="h3" size="3" mb="1">
           Register form
         </Heading>
-        <Flex direction="column" gapX="2">
-          <Box>
-            <label>
-              <Text size="2">Enter rider name</Text>
-              <TextField.Root
-                variant="surface"
-                placeholder="Enter rider name"
-                value={name}
-                onChange={(ev) => setName(ev.target.value)}
-                mb="4"
-              />
-            </label>
-          </Box>
-
-          <Box>
-            <label>
-              <Text size="2">Choose color</Text>
-              <RiderColorsSelector selected={color} setColor={setColor} />
-            </label>
-          </Box>
-
-          <Box>
-            <label>
-              <Text size="2">Choose rider type</Text>
-              <Flex gap="4" mb="2" justify="between">
-                <Button
-                  variant="classic"
-                  onClick={() => addRider("rouler")}
-                  disabled={isDisabled}
-                >
-                  Add new Rouler
-                </Button>
-
-                <Button
-                  onClick={() => addRider("sprinter")}
-                  disabled={isDisabled}
-                >
-                  Add new Sprinter
-                </Button>
-              </Flex>
-            </label>
-          </Box>
+        <Box mb="2">
+          <Text size="2" as="div">
+            Compose your dream team
+          </Text>
+          <Text size="1">Select all at once and click button below.</Text>
+        </Box>
+        <Grid columns="2fr 0.2fr 2fr" align="center">
+          <RiderSelection
+            type="rouler"
+            onColorSelect={(color) => handleColorSelect(color, "rouler")}
+            selection={ridersEnroll["rouler"]}
+          />
+          <Separator
+            orientation="vertical"
+            size="3"
+            style={{ justifySelf: "center" }}
+          />
+          <RiderSelection
+            type="sprinter"
+            onColorSelect={(color) => handleColorSelect(color, "sprinter")}
+            selection={ridersEnroll["sprinter"]}
+          />
+        </Grid>
+        <Flex justify="center" gap="2" mt="2">
+          <Text as="div" align="center" size="1">
+            I am usung as a pair
+          </Text>
+          <Switch
+            size="1"
+            defaultChecked
+            checked={pairSelecting}
+            onCheckedChange={setPairSelecting}
+          />
         </Flex>
       </Card>
+      <Flex justify="center">
+        <Button size="4" disabled={isDisabled}>
+          <RocketIcon width="20" height="20" />
+          Start the race!
+        </Button>
+      </Flex>
     </Card>
   );
 }
