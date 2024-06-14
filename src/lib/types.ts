@@ -1,6 +1,12 @@
 export type RiderId = string;
 
 export type RiderType = "rouler" | "sprinter";
+export type RiderColors = "white" | "black" | "red" | "green" | "blue" | "pink";
+
+export type RiderColor = {
+  name: RiderColors;
+  value: string;
+};
 
 export type Rider = {
   id: RiderId;

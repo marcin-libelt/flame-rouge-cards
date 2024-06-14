@@ -1,3 +1,5 @@
+import { RiderColor } from "./types";
+
 export const charactersDataObj = [
   {
     code: "rouler",
@@ -14,9 +16,10 @@ export const charactersDataObj = [
 ];
 
 export const exhaustionCardValue = 2;
+
 export const RIDERS_LIMIT = 4;
 
-export const riderColors = [
+export const riderColors: RiderColor[] = [
   {
     name: "white",
     value: "#FFFFFF",
