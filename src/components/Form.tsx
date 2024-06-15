@@ -18,6 +18,7 @@ import { useState } from "react";
 import classes from "./Form.module.less";
 import RiderSelection from "./RiderSelection";
 import { RocketIcon } from "@radix-ui/react-icons";
+import { getFakeName } from "../lib/data";
 
 type initialGameValueType = { [k: string]: string[] };
 const initialValue: initialGameValueType = {
@@ -78,7 +79,7 @@ export default function Form() {
         ridersEnroll[type].forEach((color) => {
           registeredRiders.push({
             id: uuidv4(),
-            name: "Jan Kowalski",
+            name: getFakeName(),
             type: type as RiderType,
             color: color,
             label: data.label,
