@@ -1,28 +1,22 @@
-import { Box, Flex, Progress, Text } from "@radix-ui/themes";
+import { Badge, Box, Flex, Separator, Text } from "@radix-ui/themes";
 import { Rider } from "../lib/types";
+import StaminaBar from "./StaminaBar";
 
 export default function Stats({ rider }: { rider: Rider }) {
   const { deck, stash, hand, penalty } = rider;
-  const allCardsLimit = [...deck, ...stash, ...hand].length;
-  const deckPercent = Math.ceil(
-    ([...deck, ...hand].length * 100) / allCardsLimit
-  );
-
-  let penaltyPercent = Math.ceil((penalty * 100) / allCardsLimit);
-  penaltyPercent = penaltyPercent >= 100 ? 100 : penaltyPercent;
+  const allCards = [...deck, ...stash, ...hand];
 
   return (
     <Box my="4">
       <Flex align="center" gapX="1">
-        <Text as="div" size="1">{`Exhaustion (${penalty})`}</Text>
-        <Progress value={penaltyPercent} size="1" />
-        <Text as="div" size="1">{`All (${allCardsLimit})`}</Text>
-      </Flex>
-
-      <Flex align="center" gapX="1">
-        <Text as="div" size="1">{`Deck`}</Text>
-        <Progress value={deckPercent} size="1" />
-        <Text as="div" size="1">{`Stash`}</Text>
+        <Text as="div" size="1">{`Power:`}</Text>
+        <StaminaBar type={rider.type} cards={allCards} />
+        <Separator orientation="vertical" size="1" />
+        <Text as="div" size="1">{`Cards:`}</Text>
+        <Badge size="1">{allCards.length}</Badge>
+        <Badge size="1" color="crimson">
+          {penalty}
+        </Badge>
       </Flex>
     </Box>
   );

@@ -26,7 +26,7 @@ const initialValue: initialGameValueType = {
 };
 
 export default function Form() {
-  const { setRidersData } = useRiderCardsContext();
+  const { setRidersData, setGameData, gameData } = useRiderCardsContext();
   const [pairSelecting, setPairSelecting] = useState(true);
   const [ridersEnroll, setRidersEnroll] = useState(initialValue);
 
@@ -75,8 +75,6 @@ export default function Form() {
       );
 
       if (data) {
-        console.log("type", type);
-
         ridersEnroll[type].forEach((color) => {
           registeredRiders.push({
             id: uuidv4(),
@@ -95,6 +93,7 @@ export default function Form() {
     });
 
     setRidersData(registeredRiders);
+    setGameData({ ...gameData, isPending: true });
   };
 
   return (
@@ -144,7 +143,13 @@ export default function Form() {
         </Flex>
       </Card>
       <Flex justify="center">
-        <Button size="4" disabled={isDisabled} onClick={startGame}>
+        <Button
+          size="4"
+          variant="classic"
+          color="tomato"
+          disabled={isDisabled}
+          onClick={startGame}
+        >
           <RocketIcon width="20" height="20" />
           Start the race!
         </Button>
