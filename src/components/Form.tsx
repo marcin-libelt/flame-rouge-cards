@@ -19,22 +19,14 @@ import classes from "./Form.module.less";
 import RiderSelection from "./RiderSelection";
 import { RocketIcon } from "@radix-ui/react-icons";
 
-// todo rename that interface name
-interface ObjectLiteral {
-  [key: string]: string[];
-}
-
-const generateInitialValue = () => {
-  const result: ObjectLiteral = {};
-  for (const riderCfg of charactersDataObj) {
-    result[riderCfg.code] = [];
-  }
-  return result;
+type initialGameValueType = { [k: string]: string[] };
+const initialValue: initialGameValueType = {
+  rouler: [],
+  sprinter: [],
 };
-const initialValue = generateInitialValue();
 
 export default function Form() {
-  const { setRidersData, ridersData } = useRiderCardsContext();
+  const { setRidersData } = useRiderCardsContext();
   const [pairSelecting, setPairSelecting] = useState(true);
   const [ridersEnroll, setRidersEnroll] = useState(initialValue);
 
@@ -49,7 +41,7 @@ export default function Form() {
   const handleColorSelect = (color: string, type: RiderType) => {
     if (pairSelecting) {
       const keys = Object.keys(ridersEnroll);
-      const newEnroll: ObjectLiteral = {};
+      const newEnroll: initialGameValueType = {};
       // check first item only
       if (ridersEnroll[keys[0]].includes(color)) {
         for (const d of keys) {
@@ -75,38 +67,34 @@ export default function Form() {
     }
   };
 
-  const addRider = async (type: RiderType): Promise<void> => {
-    if (!color) {
-      alert("Please specify color at least");
-      return;
-    }
+  const startGame = () => {
+    const registeredRiders: Rider[] = [];
+    Object.keys(ridersEnroll).forEach((type) => {
+      const data = charactersDataObj.find(
+        (character) => character.code === type
+      );
 
-    const data = charactersDataObj.find((character) => character.code === type);
+      if (data) {
+        console.log("type", type);
 
-    if (data) {
-      // const response = await fetch(
-      //   "https://api.parser.name/?api_key=65ae76a9a472817634b02508d964689e&endpoint=generate&gender=m&country_code=DE"
-      // );
-      // const person = await response.json();
-      // if (!person.error) {
-      //   name = `${person.data[0].name.firstname.name} ${person.data[0].name.lastname.name}`;
-      // }
+        ridersEnroll[type].forEach((color) => {
+          registeredRiders.push({
+            id: uuidv4(),
+            name: "Jan Kowalski",
+            type: type as RiderType,
+            color: color,
+            label: data.label,
+            deck: shuffle([...data.deck]),
+            hand: [],
+            stash: [],
+            selected: [],
+            penalty: 0,
+          });
+        });
+      }
+    });
 
-      const newPlayer: Rider = {
-        id: uuidv4(),
-        name: name || "Jan Kowalski",
-        type: type,
-        color: color,
-        label: data.label,
-        deck: shuffle([...data.deck]),
-        hand: [],
-        stash: [],
-        selected: [],
-        penalty: 0,
-      };
-
-      setRidersData([...ridersData, newPlayer]);
-    }
+    setRidersData(registeredRiders);
   };
 
   return (
@@ -124,23 +112,25 @@ export default function Form() {
           </Text>
           <Text size="1">Select all at once and click button below.</Text>
         </Box>
-        <Grid columns="2fr 0.2fr 2fr" align="center">
-          <RiderSelection
-            type="rouler"
-            onColorSelect={(color) => handleColorSelect(color, "rouler")}
-            selection={ridersEnroll["rouler"]}
-          />
-          <Separator
-            orientation="vertical"
-            size="3"
-            style={{ justifySelf: "center" }}
-          />
-          <RiderSelection
-            type="sprinter"
-            onColorSelect={(color) => handleColorSelect(color, "sprinter")}
-            selection={ridersEnroll["sprinter"]}
-          />
-        </Grid>
+        {true && (
+          <Grid columns="2fr 0.2fr 2fr" align="center">
+            <RiderSelection
+              type="rouler"
+              onColorSelect={(color) => handleColorSelect(color, "rouler")}
+              selection={ridersEnroll["rouler"]}
+            />
+            <Separator
+              orientation="vertical"
+              size="3"
+              style={{ justifySelf: "center" }}
+            />
+            <RiderSelection
+              type="sprinter"
+              onColorSelect={(color) => handleColorSelect(color, "sprinter")}
+              selection={ridersEnroll["sprinter"]}
+            />
+          </Grid>
+        )}
         <Flex justify="center" gap="2" mt="2">
           <Text as="div" align="center" size="1">
             I am usung as a pair
@@ -154,7 +144,7 @@ export default function Form() {
         </Flex>
       </Card>
       <Flex justify="center">
-        <Button size="4" disabled={isDisabled}>
+        <Button size="4" disabled={isDisabled} onClick={startGame}>
           <RocketIcon width="20" height="20" />
           Start the race!
         </Button>
