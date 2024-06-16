@@ -14,9 +14,9 @@ export default function Stats({
 
   return (
     <Box my="4">
-      <Flex align="center" gapX="1">
+      <Flex align="center" gapX="1" justify="between">
         <Text as="div" size="1">{`Power:`}</Text>
-        <StaminaBar type={rider.type} cards={allCards} />
+        <StaminaBar type={rider.type} allCards={allCards} />
         <Separator orientation="vertical" size="1" />
         <Text as="div" size="1">{`Cards:`}</Text>
         <Badge size="1">{allCards.length}</Badge>
