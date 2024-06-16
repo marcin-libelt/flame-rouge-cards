@@ -1,14 +1,16 @@
 {
-  "name": "flame-rouge-cards",
+  "name": "flamme-rouge-cards",
   "private": false,
   "version": "0.2.0",
   "type": "module",
+  "description": "An interactive addition to the well-known and popular board game Flamme Rouge. The presented application completely replaces playing cards. The constant shuffling of cards during the game is a disadvantage of this wonderful game. Thanks to the Flamm Rouge Cards application, you save a lot of time on the game and focus only on its advantages.",
   "author": {
     "name": "Marcin Libelt",
     "email": "marcin.libelt@gmail.com"
   },
   "scripts": {
     "dev": "vite",
+    "devh": "vite --host",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
