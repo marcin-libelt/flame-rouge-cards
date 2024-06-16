@@ -13,8 +13,16 @@ export default function StaminaBar({
   if (!data) {
     return;
   }
-  const potentialPowerIndex =
-    (cards.reduce((accu, curr) => accu + curr, 0) / cards.length) * 9 || 0;
 
-  return <Progress value={potentialPowerIndex} />;
+  const powerLimit = data.powerIndex;
+  const powerLeft = cards.reduce((accu, curr) => accu + curr, 0);
+  let currentPower = (powerLeft * 100) / powerLimit;
+
+  if (currentPower > 100) {
+    currentPower = 100;
+  } else if (currentPower < 0) {
+    currentPower = 0;
+  }
+
+  return <Progress value={currentPower} />;
 }
