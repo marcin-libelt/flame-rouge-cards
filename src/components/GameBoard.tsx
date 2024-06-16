@@ -109,7 +109,7 @@ export default function GameBoard() {
         <Button
           variant="ghost"
           onClick={() => {
-            confirm("Are you sure?") && window.location.reload();
+            window.location.reload();
           }}
         >
           Restart game

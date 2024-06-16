@@ -7,7 +7,6 @@ type PlayerCard = {
   children: React.ReactNode;
 };
 export default function PlayerCard({
-  isReaviled = false,
   onClick = () => {},
   color = undefined,
   children,
@@ -17,8 +16,9 @@ export default function PlayerCard({
       color={color}
       variant="soft"
       asChild={true}
-      size={isReaviled ? "4" : "2"}
+      size={"3"}
       onClick={onClick}
+      style={{ aspectRatio: 0.7, height: "auto" }}
     >
       <Box>{children}</Box>
     </Button>
