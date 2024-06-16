@@ -34,7 +34,7 @@ export default function RiderPanel({
     <Box>
       <Card className={classes[boxClass]}>
         <RiderHeaderPanel rider={rider} isAllow={isAllow} isReady={isReady}>
-          <Stats rider={rider} />
+          <Stats rider={rider} penaltyLength={penaltyLength} />
         </RiderHeaderPanel>
         <RiderCardsPanel
           rider={rider}

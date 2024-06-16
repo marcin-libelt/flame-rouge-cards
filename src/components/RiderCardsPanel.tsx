@@ -39,7 +39,7 @@ export default function RiderCardsPanel({
   const currentHand = getCurrentHand(id);
 
   const handleAddPenalty = () => {
-    setPenaltyLength(penaltyLength++);
+    setPenaltyLength(penaltyLength + 1);
     addExhaustionCard(id);
   };
 
@@ -81,11 +81,6 @@ export default function RiderCardsPanel({
           <PlayerCard color="red" onClick={handleAddPenalty}>
             {"+2"}
           </PlayerCard>
-          {Array(penaltyLength)
-            .fill(undefined)
-            .map((_, index) => (
-              <span key={index}>.</span>
-            ))}
         </Flex>
       )}
     </Flex>

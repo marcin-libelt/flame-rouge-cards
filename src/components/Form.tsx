@@ -37,7 +37,9 @@ export default function Form() {
       0
     );
   };
-  const isDisabled = !ifSomeEnrolled();
+
+  const enrollLength = ifSomeEnrolled();
+  const isDisabled = !enrollLength;
 
   const handleColorSelect = (color: string, type: RiderType) => {
     if (pairSelecting) {
@@ -69,6 +71,9 @@ export default function Form() {
   };
 
   const startGame = () => {
+    // TODO: get unique and random names for riders
+    // example: const randomNames = generateUniqueAndRandomNames(enrollLength)
+
     const registeredRiders: Rider[] = [];
     Object.keys(ridersEnroll).forEach((type) => {
       const data = charactersDataObj.find(

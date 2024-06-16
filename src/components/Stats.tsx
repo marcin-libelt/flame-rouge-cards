@@ -2,7 +2,13 @@ import { Badge, Box, Flex, Separator, Text } from "@radix-ui/themes";
 import { Rider } from "../lib/types";
 import StaminaBar from "./StaminaBar";
 
-export default function Stats({ rider }: { rider: Rider }) {
+export default function Stats({
+  rider,
+  penaltyLength,
+}: {
+  rider: Rider;
+  penaltyLength: number;
+}) {
   const { deck, stash, hand, penalty } = rider;
   const allCards = [...deck, ...stash, ...hand];
 
@@ -14,8 +20,9 @@ export default function Stats({ rider }: { rider: Rider }) {
         <Separator orientation="vertical" size="1" />
         <Text as="div" size="1">{`Cards:`}</Text>
         <Badge size="1">{allCards.length}</Badge>
-        <Badge size="1" color="crimson">
+        <Badge size="1" color="crimson" className="badge-no-gap">
           {penalty}
+          {penaltyLength > 0 && <span>*</span>}
         </Badge>
       </Flex>
     </Box>
