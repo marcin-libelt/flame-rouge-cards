@@ -7,7 +7,7 @@ import {
 } from "../lib/types";
 //import classes from "./Gameboard.module.less";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RiderPanel from "./RiderPanel";
 import { EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
 
@@ -21,6 +21,18 @@ export default function GameBoard() {
     areCardsReaviled,
     revealAllCards,
   } = useRiderCardsContext();
+
+  useEffect(() => {
+    const handleBeforeunload = (ev: BeforeUnloadEvent) => {
+      // Recommended
+      ev.preventDefault();
+    };
+    window.addEventListener("beforeunload", handleBeforeunload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeunload);
+    };
+  }, []);
 
   const initialState: BoardRider[] = ridersData.map((rider) => ({
     riderId: rider.id,
