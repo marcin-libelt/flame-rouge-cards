@@ -1,5 +1,4 @@
 import { Button, Flex } from "@radix-ui/themes";
-import { useState } from "react";
 import PlayerCard from "./Card";
 import { useRiderCardsContext } from "../lib/hooks";
 import {
@@ -13,6 +12,8 @@ import Tip from "./Tip";
 type RiderCardsPanelProps = {
   rider: Rider;
   isAllow: boolean;
+  penaltyLength: number;
+  setPenaltyLength: (penaltyLength: number) => void;
   handleDrawCards: HandleDrawCardsProps;
   handleSelectCard: HandleSelectCardProps;
 };
@@ -20,6 +21,8 @@ type RiderCardsPanelProps = {
 export default function RiderCardsPanel({
   rider,
   isAllow,
+  penaltyLength,
+  setPenaltyLength,
   handleDrawCards,
   handleSelectCard,
 }: RiderCardsPanelProps) {
@@ -31,14 +34,12 @@ export default function RiderCardsPanel({
     getCurrentHand,
   } = useRiderCardsContext();
 
-  const [penaltyLength, setPenaltyLength] = useState(0);
-
   const { id } = rider;
   const isReaviled = areCardsReaviled();
   const currentHand = getCurrentHand(id);
 
   const handleAddPenalty = () => {
-    setPenaltyLength((prev) => prev + 1);
+    setPenaltyLength(penaltyLength++);
     addExhaustionCard(id);
   };
 

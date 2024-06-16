@@ -27,7 +27,7 @@ export default function RiderSelection({
       >
         {rider.label}
       </Badge>
-      <Grid columns="2" gap="3" rows="repeat(2, 64px)" width="auto">
+      <Grid columns="2" gap="3" width="auto">
         <RiderColorsSelector
           onColorSelect={onColorSelect}
           selection={selection}
